@@ -33,12 +33,15 @@
 {% block content %}
     <section class="mt-4" id="title">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <h2>
                     <b>
                         {{ page_title }}
                     </b>
                 </h2>
+            </div>
+            <div class="col-md-6" style="text-align: right;">
+                <b>Powered By <a href="https://mhn20.github.io/portfolio/" target="_blank">https://mhn20.github.io/portfolio/</a></b>
             </div>
             <div class="col-md-4">
                 <input type="text" name="search" placeholder="Search Movies...">
@@ -61,6 +64,12 @@
         <div class="row" id="list_movies"></div>
         <div class="pagination mt-3 mb-4"></div>
     </section>
+    <footer class="mb-4">
+        <hr>
+        <center>
+            <b>Powered By <a href="https://mhn20.github.io/portfolio/" target="_blank">https://mhn20.github.io/portfolio/</a></b>
+        </center>
+    </footer>
 {% endblock %}
 
 {% block js %}
