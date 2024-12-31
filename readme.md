@@ -35,7 +35,7 @@ python manage.py collectstatic
 ```
 python manage.py runserver
 ```
-[ADMINISTRATOR](http://localhost:8000/admin/)
+[ADMINISTRATOR (http://localhost:8000/admin/)](http://localhost:8000/admin/)
 #### Username
 ```
 mahmud
@@ -44,4 +44,4 @@ mahmud
 ```
 1Sampai9
 ```
-[LIST MOVIE](http://localhost:8000/)
+[LIST MOVIE (http://localhost:8000/)](http://localhost:8000/)
