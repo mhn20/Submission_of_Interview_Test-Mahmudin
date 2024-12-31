@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<style>
+    .content-placeholder {
+        display: inline-block;
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;
+        -webkit-animation-name: placeHolderShimmer;
+        animation-name: placeHolderShimmer;
+        -webkit-animation-timing-function: linear;
+        animation-timing-function: linear;
+        background: #f6f7f8;
+        background: -webkit-gradient(linear, left top, right top, color-stop(8%, #eeeeee), color-stop(18%, #dddddd), color-stop(33%, #eeeeee));
+        background: -webkit-linear-gradient(left, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+        background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+        -webkit-background-size: 800px 104px;
+        background-size: 800px 104px;
+        height: 300px;
+        position: relative;
+        width:100%;
+    }
+    .overflow-img{
+        overflow: hidden;
+        height: 406px;
+    }   
+</style>
+{% endblock %}
+{% block content %}
+    <section class="mt-4" id="title">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    <b>
+                        {{ page_title }}
+                    </b>
+                </h2>
+            </div>
+            <div class="col-md-4">
+                <input type="text" name="search" placeholder="Search Movies...">
+            </div>
+        </div>
+    </section>
+    <section class="mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <h4>
+                    <b>
+                        Popular Movies This Month
+                    </b>
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <div class="pagination" style="float:right;"></div>
+            </div>
+        </div>
+        <div class="row" id="list_movies"></div>
+        <div class="pagination mt-3 mb-4"></div>
+    </section>
+{% endblock %}
+
+{% block js %}
+<script>
+    $('document').ready(function(){
+        listMovies();
+    });
+
+    $(`[name="search"]`).on('change',function(){
+        listMovies();
+    });
+
+    function listMovies(page=1){
+        var list_movies = $('#list_movies');
+        var loaddata = '';
+        for($key=1;$key<=12;$key++){
+            loaddata += `<div class="col-md-3 mt-2"><div class="content-placeholder"></div></div>`;
+        }
+        list_movies.html(loaddata);
+        var pagination = $('.pagination');
+        pagination.html('<nav aria-label="Page navigation example"><ul class="pagination">');
+        $.ajax({
+            'url' : '/list-movies/',
+            'type' : 'GET',
+            'data' : {
+                'search' : $(`[name="search"]`).val(), 'page':page
+            },
+            'success' : function(result){
+                $.each(result.paginator.page_range,function(key,val){
+                    pagination.append(`<li class="page-item"><a class="page-link" style="cursor:pointer;" onclick="listMovies(${val})">${val}</a></li>`);
+                });
+                pagination.append('</ul></nav>');
+                list_movies.html(``);
+                var results = result.results;
+                $.each(results,function(key,val){
+                    list_movies.append(`
+                        <div class="col-md-3 mt-3">
+                            <a onclick="location='/detail-movie/${val['idxrow']}/'" style="cursor:pointer;">
+                                <div class="overflow-img"><img src="${val['imgPath']}" class="img-fluid" style="width:100%;"></div>
+                                <div class="mt-1">
+                                    <h4>${val['name']}</h4>
+                                </div>
+                                <div class="mt-1">${val['duration']} min</div>
+                                <div class="mt-2">User Rating ${val['userRating']}</div>
+                            </a>
+                        </div>
+                    `);
+                });
+            }
+        });
+    }
+</script>
+{% endblock %}

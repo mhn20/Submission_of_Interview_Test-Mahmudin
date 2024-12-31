@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block css %}{% endblock %}
+
+{% block content %}
+    <section class="mt-4 pb-4" id="title" style="border-bottom:1px solid #ddd;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    <b>
+                        {{ page_title }}
+                    </b>
+                </h2>
+            </div>
+            <div class="col-md-4">
+                <button type="button" onclick="location='/'">Back</button>
+            </div>
+            <div class="col-md-12 mt-2">
+                <h2>
+                    <b>
+                        {{ dataset.name }}
+                    </b>
+                </h2>
+            </div>
+            <div class="col-md-12 mt-2">({{ dataset.mpaaRating_type }} : {% if dataset.mpaaRating_label %}{{ dataset.mpaaRating_label }}{% else %}-{% endif %})</div>
+        </div>
+    </section>
+    <section class="mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>
+                    <b>
+                        <img src="/media/{{ dataset.imgPath }}" class="img-fluid" style="width:100%;">
+                    </b>
+                </h4>
+            </div>
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <h4><b>Details</b></h4>
+                </div>
+                <div class="mb-3">
+                    Genre : {% for rowindex in dataset.genre %} {{ rowindex }} {% endfor %}
+                </div>
+                <div class="mb-3">
+                    Language : {{ dataset.language }}
+                </div>
+                <div class="mb-3">
+                    Duration : {{ dataset.duration }} minutes
+                </div>
+                <div class="mb-3">
+                    User Rating : {{ dataset.userRating }}
+                </div>
+                <div class="mb-2 mt-4">
+                    <h4><b>Synopsis</b></h4>
+                </div>
+                <div class="mb-3">
+                    {{ dataset.description }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
